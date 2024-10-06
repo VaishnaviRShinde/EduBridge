@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styling for the Typed.js text */
+        .typed-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #typed-element {
+            font-size: 1.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="#" class="text-white font-bold text-lg">EduBridge</a>
+            <div class="flex space-x-4">
+                <a href="#post-projects" class="text-gray-300 hover:text-white">Post Projects/Internships</a>
+                <a href="#assigned-projects" class="text-gray-300 hover:text-white">Assigned Projects</a>
+                <a href="#received-projects" class="text-gray-300 hover:text-white">Projects/Internships Received</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold text-blue-600 mb-4">Welcome to Your Dashboard, Teacher!</h2>
+            <p class="text-gray-700 mb-6">Teachers plant the seeds of knowledge, nurture our dreams, and inspire us to reach our fullest potential. Thank you for believing in us when we sometimes struggle to believe in ourselves..</p>
+
+            <!-- Typed.js Section for Dynamic Text -->
+            <div class="typed-container">
+                <h3 class="text-green-600 text-2xl font-semibold">Explore options like <span id="typed-element"></span></h3>
+            </div>
+
+            <!-- Motivational Message -->
+            <div class="mt-8 p-6 bg-green-100 rounded-md">
+                <h3 class="text-xl font-semibold text-green-800">A Message for You:</h3>
+                <p class="mt-4 text-green-700">"Building great opportunities is a cornerstone of progress. Keep creating, keep innovating, and let's build a brighter future together!"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Projects/Internships Section -->
+<div id="post-projects" class="container mx-auto mt-10 px-4">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-blue-600 mb-4">Post Projects/Internships</h2>
+        <form id="post-form">
+            <label for="title" class="block text-gray-700 mb-2">Project/Internship Title</label>
+            <input type="text" id="title" name="title" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter title" required>
+
+            <label for="description" class="block text-gray-700 mb-2">Description</label>
+            <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter description" required></textarea>
+
+            <label for="criteria" class="block text-gray-700 mb-2">Criteria</label>
+            <textarea id="criteria" name="criteria" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter criteria" required></textarea>
+
+            <label for="skills" class="block text-gray-700 mb-2">Skill Requirements</label>
+            <textarea id="skills" name="skills" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter skill requirements" required></textarea>
+
+            <label for="deadline" class="block text-gray-700 mb-2">Application Deadline</label>
+            <input type="date" id="deadline" name="deadline" class="w-full p-2 border border-gray-300 rounded mb-4" required>
+
+            <label for="stipend" class="block text-gray-700 mb-2">Stipend</label>
+            <input type="text" id="stipend" name="stipend" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter stipend" required>
+
+            <label for="location" class="block text-gray-700 mb-2">Location</label>
+            <input type="text" id="location" name="location" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter location" required>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Post Opportunity</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('post-form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const criteria = document.getElementById('criteria').value;
+        const skills = document.getElementById('skills').value;
+        const deadline = document.getElementById('deadline').value;
+        const stipend = document.getElementById('stipend').value;
+        const location = document.getElementById('location').value;
+
+        const data = {
+            title: title,
+            description: description,
+            skills_required: skills,
+            deadline: deadline,
+            stipend: stipend,
+            location: location,
+            // Add company_id if needed
+            // company_id: companyId, // Fetch or define company_id appropriately
+        };
+
+        try {
+            const response = await fetch('/upload_project', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message); // Handle success response
+                // Optionally reset the form or redirect
+                document.getElementById('post-form').reset();
+            } else {
+                alert('Error: ' + result.message); // Handle error response
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while posting the opportunity.');
+        }
+    });
+</script>
+
+
+    <!-- Assigned Projects Section -->
+    <div id="assigned-projects" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Assigned Projects</h2>
+            <table class="w-full table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Project Name</th>
+                        <th class="px-4 py-2">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">Project 1</td>
+                        <td class="border px-4 py-2">Details about Project 1...</td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Project 2</td>
+                        <td class="border px-4 py-2">Details about Project 2...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Projects Posted by Companies Section -->
+    <div id="company-projects" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Projects Posted by Companies</h2>
+            <div class="space-y-4">
+                {% for project in company_projects %}
+                <div class="bg-gray-100 p-4 rounded-md">
+                    <h3 class="font-bold">{{ project.title }}</h3>
+                    <p>{{ project.description }}</p>
+                    <p>Deadline: {{ project.deadline }}</p>
+                    <p>Skills Required: {{ project.skills_required }}</p>
+                    <p>Company ID: {{ project.company_id }}</p> <!-- You can replace this with the company name if you have it -->
+                    <button class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600">View Details</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects/Internships Received Section -->
+    <div id="received-projects" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Projects/Internships Received</h2>
+            <div class="space-y-4">
+                <div class="bg-gray-100 p-4 rounded-md">
+                    <h3 class="font-bold">Company X</h3>
+                    <p>Internship - Software Development</p>
+                    <p>Deadline: December 1, 2024</p>
+                    <p>Criteria: Enrolled in Computer Science</p>
+                    <p>Skill Requirements: Java, Spring Boot</p>
+                    <p>Stipend: $500/month</p>
+                    <p>Location: Remote</p>
+                    <button class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600">View Company</button>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-md">
+                    <h3 class="font-bold">Company Y</h3>
+                    <p>Project - AI Research</p>
+                    <p>Deadline: January 15, 2025</p>
+                    <p>Criteria: Background in AI</p>
+                    <p>Skill Requirements: Python, TensorFlow</p>
+                    <p>Stipend: $1000/project</p>
+                    <p>Location: On-site</p>
+                    <button class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600">View Company</button>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-md">
+                    <h3 class="font-bold">Company Z</h3>
+                    <p>Internship - Data Analysis</p>
+                    <p>Deadline: February 20, 2025</p>
+                    <p>Criteria: Data Science Major</p>
+                    <p>Skill Requirements: Excel, R</p>
+                    <p>Stipend: $300/month</p>
+                    <p>Location: Remote</p>
+                    <button class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600">View Company</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Section -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#typed-element', {
+            strings: ['Post Projects', 'View Assigned Projects', 'Check Received Internships', 'Provide Feedback'], 
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+    </script>
+</body>
+
+</html>

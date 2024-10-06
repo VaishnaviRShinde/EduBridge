@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styling for the Typed.js text */
+        .typed-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #typed-element {
+            font-size: 1.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="#" class="text-white font-bold text-lg">EduBridge</a>
+            <div class="flex space-x-4">
+                <a href="G:\eduhackers\student_dashboard.html" class="text-gray-300 hover:text-white">Dashboard</a>
+                <a href="/student/projects" class="text-gray-300 hover:text-white">Projects</a>
+                <a href="/student/internships" class="text-gray-300 hover:text-white">Internships</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold text-blue-600 mb-4">Welcome to Explore, Student!</h2>
+            <p class="text-gray-700 mb-6">Your dashboard is here to help you manage your projects, internships, and certificates. Let’s make the most of it!</p>
+
+            <!-- Typed.js Section for Dynamic Text -->
+            <div class="typed-container">
+                <h3 class="text-green-600 text-2xl font-semibold">Explore opportunities as a <span id="typed-element"></span></h3>
+            </div>
+
+            <!-- Motivational Message -->
+            <div class="mt-8 p-6 bg-green-100 rounded-md">
+                <h3 class="text-xl font-semibold text-green-800">A Message for You:</h3>
+                <p class="mt-4 text-green-700">"Remember, success is a journey, not a destination. Keep learning, keep growing, and seize every opportunity that comes your way. Your future is bright, and the only limit is the one you set for yourself. Let's embark on this learning adventure together!"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscribe to Notifications Section -->
+    <div class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Subscribe for Notifications</h2>
+            <form id="subscription-form">
+                <label for="email" class="block text-gray-700 mb-2">Email Address</label>
+                <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter your email" required>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Subscribe</button>
+            </form>
+            <p id="subscription-message" class="mt-4 text-green-600"></p>
+        </div>
+    </div>
+
+    <!-- Posted Opportunities Section -->
+    <div class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Recent Opportunities</h2>
+            <div id="opportunities-list">
+                <!-- Dynamic Content Will Be Inserted Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Section -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#typed-element', {
+            strings: ['Projects', 'Internships'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        // Handle Subscription
+        document.getElementById('subscription-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const result = await response.json();
+                document.getElementById('subscription-message').innerText = result.message;
+                document.getElementById('subscription-form').reset(); // Reset the form
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('subscription-message').innerText = 'Failed to subscribe. Please try again.';
+            }
+        });
+
+        // Fetch and display posted opportunities
+        async function fetchOpportunities() {
+            try {
+                const response = await fetch('http://localhost:3000/post'); // Modify with the actual endpoint for fetching postings
+                const opportunities = await response.json();
+
+                const opportunitiesList = document.getElementById('opportunities-list');
+                opportunities.forEach(opportunity => {
+                    const opportunityElement = document.createElement('div');
+                    opportunityElement.className = 'border p-4 mb-4 rounded-lg';
+                    opportunityElement.innerHTML = `
+                        <h3 class="text-xl font-semibold">${opportunity.title}</h3>
+                        <p>${opportunity.description}</p>
+                        <p class="mt-2 text-gray-600">Deadline: ${opportunity.deadline || 'Not specified'}</p>
+                        <p class="mt-2 text-gray-600">Criteria: ${opportunity.criteria || 'Not specified'}</p>
+                        <p class="mt-2 text-gray-600">Skill Requirements: ${opportunity.skills || 'Not specified'}</p>
+                        <p class="mt-2 text-gray-600">Stipend: ${opportunity.stipend || 'Not specified'}</p>
+                        <p class="mt-2 text-gray-600">Location: ${opportunity.location || 'Not specified'}</p>
+                        <a href="#" class="text-blue-500 hover:underline">View Company</a>
+                    `;
+                    opportunitiesList.appendChild(opportunityElement);
+                });
+            } catch (error) {
+                console.error('Error fetching opportunities:', error);
+            }
+        }
+
+        // Call fetchOpportunities on page load
+        window.onload = fetchOpportunities;
+    </script>
+</body>
+
+</html>

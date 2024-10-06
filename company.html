@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styling for the Typed.js text */
+        .typed-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #typed-element {
+            font-size: 1.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="#" class="text-white font-bold text-lg">EduBridge</a>
+            <div class="flex space-x-4">
+                
+                <a href="#create-opportunity" class="text-gray-300 hover:text-white">Create Opportunity</a>
+                <a href="#project-progress" class="text-gray-300 hover:text-white">Project Progress</a>
+                <a href="#students-applied" class="text-gray-300 hover:text-white">Students Applied</a>
+                <a href="#add-review" class="text-gray-300 hover:text-white">Add Review</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold text-blue-600 mb-4">Welcome to Your Dashboard, Company!</h2>
+            <p class="text-gray-700 mb-6">Manage your projects, create new opportunities, track student progress, and provide feedback on your interns and collaborators.</p>
+
+            <!-- Typed.js Section for Dynamic Text -->
+            <div class="typed-container">
+                <h3 class="text-green-600 text-2xl font-semibold">Explore options like <span id="typed-element"></span></h3>
+            </div>
+
+            <!-- Motivational Message -->
+            <div class="mt-8 p-6 bg-green-100 rounded-md">
+                <h3 class="text-xl font-semibold text-green-800">A Message for You:</h3>
+                <p class="mt-4 text-green-700">"Building great opportunities is a cornerstone of progress. Keep creating, keep innovating, and let's build a brighter future together!"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Opportunity Section -->
+    <div id="create-opportunity" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Create Opportunity</h2>
+            <form action="your_backend_endpoint" method="POST">
+                <label for="opportunity_title" class="block text-gray-700 mb-2">Opportunity Title</label>
+                <input type="text" id="opportunity_title" name="opportunity_title" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter title" required>
+
+                <label for="description" class="block text-gray-700 mb-2">Description</label>
+                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter description" required></textarea>
+
+                <label for="requirements" class="block text-gray-700 mb-2">Requirements</label>
+                <textarea id="requirements" name="requirements" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter requirements" required></textarea>
+
+                <label for="deadline" class="block text-gray-700 mb-2">Application Deadline</label>
+                <input type="date" id="deadline" name="deadline" class="w-full p-2 border border-gray-300 rounded mb-4" required>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Create Opportunity</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Project Progress Section -->
+    <div id="project-progress" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Project Progress</h2>
+            <table class="w-full table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Project Name</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Completion Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">Project 1</td>
+                        <td class="border px-4 py-2">In Progress</td>
+                        <td class="border px-4 py-2">15th Nov 2024</td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Project 2</td>
+                        <td class="border px-4 py-2">Completed</td>
+                        <td class="border px-4 py-2">12th Oct 2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Students Applied Section -->
+    <div id="students-applied" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Students Applied</h2>
+            <table class="w-full table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Student Name</th>
+                        <th class="px-4 py-2">Email</th>
+                        <th class="px-4 py-2">Application Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">John Doe</td>
+                        <td class="border px-4 py-2">johndoe@example.com</td>
+                        <td class="border px-4 py-2">1st Oct 2024</td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Jane Smith</td>
+                        <td class="border px-4 py-2">janesmith@example.com</td>
+                        <td class="border px-4 py-2">3rd Oct 2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Review Section -->
+    <div id="add-review" class="container mx-auto mt-10 px-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 mb-4">Add Review</h2>
+            <form action="your_backend_endpoint" method="POST">
+                <label for="student_name" class="block text-gray-700 mb-2">Student Name</label>
+                <input type="text" id="student_name" name="student_name" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter student's name" required>
+
+                <label for="review" class="block text-gray-700 mb-2">Review</label>
+                <textarea id="review" name="review" class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter review" required></textarea>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Section -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#typed-element', {
+            strings: ['Create Opportunities', 'Track Progress', 'Review Applications', 'Provide Feedback'], 
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+    </script>
+</body>
+
+</html>

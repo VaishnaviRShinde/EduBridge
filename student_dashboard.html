@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Custom styles for the dashboard */
+        .streak-badge {
+            background-color: #f87171;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Animation for sections */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom Styling for the Typed.js text */
+        .typed-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #typed-element {
+            font-size: 1.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        /* Skill items display */
+        .skill-item {
+            background: #e0f2fe;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        /* Section container styling */
+        .section-container {
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f1f5f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-btn:hover {
+            background-color: #2563eb;
+        }
+
+        /* Editable input styles */
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .save-btn {
+            background-color: #10b981;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .save-btn:hover {
+            background-color: #059669;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-white font-bold text-lg">EduBridge</a>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-300 hover:text-white">Dashboard</a>
+                <a href="#" class="text-gray-300 hover:text-white">About</a>
+                <a href="#" class="text-gray-300 hover:text-white">Skills</a>
+                <a href="#" class="text-gray-300 hover:text-white">Certificates</a>
+                <a href="#" class="text-gray-300 hover:text-white">Streak</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <div class="container mx-auto mt-8 px-4 fade-in">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold text-blue-600 mb-4">Welcome to Your Dashboard!</h2>
+            <p class="text-gray-700 mb-6">Your personal space to track skills, achievements, and progress. Let's dive
+                into your journey!</p>
+
+            <!-- Typed.js Section -->
+            <div class="typed-container">
+                <h3 class="text-green-600 text-2xl font-semibold">You are an aspiring <span id="typed-element"></span>
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="container mx-auto mt-8 px-4 fade-in section-container">
+        <div class="section-header">
+            <h3>About 📝</h3>
+            <button class="add-btn" onclick="toggleInputField('about')">Add About</button>
+        </div>
+        <div id="about-input" class="hidden">
+            <textarea id="about-text" class="input-field" placeholder="Enter about yourself"></textarea>
+            <button class="save-btn" onclick="saveAbout()">Save</button>
+        </div>
+        <div id="about-output" class="mt-4 text-gray-700"></div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="container mx-auto mt-8 px-4 fade-in section-container">
+        <div class="section-header">
+            <h3>Skills 💡</h3>
+            <button class="add-btn" onclick="toggleInputField('skills')">Add Skills</button>
+        </div>
+        <div id="skills-input" class="hidden">
+            <input id="skills-text" type="text" class="input-field" placeholder="Add a skill">
+            <button class="save-btn" onclick="saveSkills()">Save</button>
+        </div>
+        <div id="skills-output" class="flex flex-wrap mt-4 text-gray-700"></div>
+    </div>
+
+    <!-- Education Section -->
+    <div class="container mx-auto mt-8 px-4 fade-in section-container">
+        <div class="section-header">
+            <h3>Education 📚</h3>
+            <button class="add-btn" onclick="toggleInputField('education')">Add Education</button>
+        </div>
+        <div id="education-input" class="hidden">
+            <textarea id="education-text" class="input-field" placeholder="Add your education details"></textarea>
+            <button class="save-btn" onclick="saveEducation()">Save</button>
+        </div>
+        <div id="education-output" class="mt-4 text-gray-700"></div>
+    </div>
+
+    <!-- Certificates Section -->
+    <div class="container mx-auto mt-8 px-4 fade-in section-container">
+        <div class="section-header">
+            <h3>Certificates 🏆</h3>
+            <button class="add-btn" onclick="toggleInputField('certificates')">Add Certificate</button>
+        </div>
+        <div id="certificates-input" class="hidden">
+            <input id="certificates-text" type="text" class="input-field" placeholder="Enter certificate">
+            <button class="save-btn" onclick="saveCertificates()">Save</button>
+        </div>
+        <div id="certificates-output" class="mt-4 text-gray-700"></div>
+    </div>
+
+    <!-- Learning Streak Section -->
+    <div class="container mx-auto mt-8 px-4 fade-in section-container">
+        <div class="section-header">
+            <h3>Learning Streak 🔥</h3>
+            <button class="add-btn" onclick="toggleInputField('streak')">Add Streak</button>
+        </div>
+        <div id="streak-input" class="hidden">
+            <textarea id="streak-text" class="input-field" placeholder="Describe your learning streak"></textarea>
+            <button class="save-btn" onclick="saveStreak()">Save</button>
+        </div>
+        <div id="streak-output" class="mt-4 text-gray-700"></div>
+    </div>
+
+    <!-- Script Section -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        // Typed.js initialization
+        var typed = new Typed('#typed-element', {
+            strings: ['Web Developer', 'AI/ML Enthusiast', 'Software Engineer'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        function toggleInputField(section) {
+            const inputField = `document.getElementById(${section}-input)`;
+            if (inputField.classList.contains('hidden')) {
+                inputField.classList.remove('hidden');
+            } else {
+                inputField.classList.add('hidden');
+            }
+        }
+
+        function saveAbout() {
+            const aboutText = document
+                .getElementById('about-text').value;
+            if (aboutText) {
+                document.getElementById('about-output').innerText = aboutText;
+                toggleInputField('about'); // Hide the input field after saving
+            }
+        }
+
+        function saveSkills() {
+            const skillsText = document.getElementById('skills-text').value;
+            if (skillsText) {
+                const skillElement = document.createElement('span');
+                skillElement.className = 'skill-item';
+                skillElement.innerText = skillsText;
+                document.getElementById('skills-output').appendChild(skillElement);
+                toggleInputField('skills');
+            }
+        }
+
+        function saveEducation() {
+            const educationText = document
+                .getElementById('education-text').value;
+            if (educationText) {
+                document.getElementById('education-output').innerText = educationText;
+                toggleInputField('education');
+            }
+        }
+
+        function saveCertificates() {
+            const certificatesText = document.getElementById('certificates-text').value;
+            if (certificatesText) {
+                const certElement = document.createElement('p');
+                certElement.innerText = certificatesText;
+                document.getElementById('certificates-output').appendChild(certElement);
+                toggleInputField('certificates');
+            }
+        }
+
+        function saveStreak() {
+            const streakText = document.getElementById('streak-text').value;
+            if (streakText) {
+                document.getElementById('streak-output').innerText = streakText;
+                toggleInputField('streak');
+            }
+        }
+    </script>
+</body>
+
+</html>
